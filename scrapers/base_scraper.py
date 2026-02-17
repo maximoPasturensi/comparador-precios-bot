@@ -13,6 +13,21 @@ class BaseScraper:
         self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
         self.options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
         self.driver = None
+        
+    # En base_scraper.py dentro de iniciar_driver
+    def iniciar_driver(self):
+        if not self.driver:
+            # Agregamos las opciones de compatibilidad aquí adentro
+            self.options.add_argument("--headless")
+            self.options.add_argument("--no-sandbox")
+            self.options.add_argument("--disable-dev-shm-usage")
+            self.options.add_argument("--disable-gpu")
+            
+            # Iniciamos el driver con esas opciones
+            self.driver = webdriver.Chrome(options=self.options)
+            
+            # Tu script de ocultamiento de bot
+            self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
     def iniciar_driver(self):
         if not self.driver:
