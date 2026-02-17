@@ -1,0 +1,16 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Python y Sistema
+__pycache__/
+*.pyc
+.DS_Store
+
+# Datos y Configuración Sensible (LO QUE REALMENTE DEBE ESTAR OCULTO)
+.env
+*.csv
+data/
+
+# NOTA: NO PONGAS .github/workflows/ acá, eso es para el repositorio público. En este repositorio privado, los workflows pueden estar visibles.

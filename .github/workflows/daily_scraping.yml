@@ -1,0 +1,32 @@
+name: Daily Price Scraping
+
+on:
+  schedule:
+    # Se ejecuta todos los días a las 12:00 UTC (9:00 AM Argentina)
+    - cron: '0 12 * * *'
+  workflow_dispatch: # Permite que lo ejecutes manualmente desde GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install selenium pandas requests python-dotenv
+
+    - name: Correr el scraper
+      env:
+        # Aquí es donde GitHub leerá tus secretos (Token y ID)
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: python main.py
