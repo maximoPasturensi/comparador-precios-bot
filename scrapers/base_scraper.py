@@ -1,37 +1,31 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 class BaseScraper:
-    def __init__(self, headless=False):
-        self.options = Options()
-        if headless: self.options.add_argument("--headless")
-        self.options.add_argument("--disable-blink-features=AutomationControlled")
-        self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        self.options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
+    def __init__(self, headless=True):
         self.driver = None
+        self.options = Options()
         
-    # En base_scraper.py dentro de iniciar_driver
-    def iniciar_driver(self):
-        if not self.driver:
-            # Agregamos las opciones de compatibilidad aquí adentro
-            self.options.add_argument("--headless")
-            self.options.add_argument("--no-sandbox")
-            self.options.add_argument("--disable-dev-shm-usage")
-            self.options.add_argument("--disable-gpu")
-            
-            # Iniciamos el driver con esas opciones
-            self.driver = webdriver.Chrome(options=self.options)
-            
-            # Tu script de ocultamiento de bot
-            self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        # Kit de supervivencia para GitHub Actions
+        if headless:
+            self.options.add_argument("--headless=new") # La versión 'new' es más estable
+        
+        self.options.add_argument("--no-sandbox")
+        self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("--disable-gpu")
+        self.options.add_argument("--window-size=1920,1080")
+        self.options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
 
     def iniciar_driver(self):
         if not self.driver:
-            self.driver = webdriver.Chrome(options=self.options)
+            # Esto instala el driver automáticamente en el servidor
+            service = Service(ChromeDriverManager().install())
+            self.driver = webdriver.Chrome(service=service, options=self.options)
+            
+            # Ocultar que es un bot
             self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
     def cerrar_driver(self):
@@ -39,11 +33,15 @@ class BaseScraper:
             self.driver.quit()
             self.driver = None
 
-    def obtener_texto_elemento(self, url, selector_tipo, selector_valor, timeout=10):
-        self.iniciar_driver()
-        self.driver.get(url)
-        time.sleep(3)
-        elemento = WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_element_located((selector_tipo, selector_valor))
-        )
-        return elemento.text.strip()
+    def obtener_texto_elemento(self, url, selector_type, selector_value):
+        try:
+            self.iniciar_driver()
+            self.driver.get(url)
+            time.sleep(5) # Un poco más de tiempo por las dudas
+            elemento = self.driver.find_element(selector_type, selector_value)
+            return elemento.text
+        except Exception as e:
+            print(f"Error en el scraping: {e}")
+            return None
+        finally:
+            self.cerrar_driver()
