@@ -24,11 +24,17 @@ class BaseScraper:
 
     def iniciar_driver(self):
         if not self.driver:
-            # Esto instala el driver automáticamente en el servidor
+            # Usamos el Service directo con el manager
+            from selenium.webdriver.chrome.service import Service
+            from webdriver_manager.chrome import ChromeDriverManager
+            
             service = Service(ChromeDriverManager().install())
             self.driver = webdriver.Chrome(service=service, options=self.options)
             
-            # Ocultar que es un bot
+            # Tiempo de espera extra para que cargue la web
+            self.driver.implicitly_wait(10)
+            
+            # Ocultar bot
             self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
     def cerrar_driver(self):

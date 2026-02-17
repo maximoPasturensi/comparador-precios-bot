@@ -86,4 +86,4 @@ if __name__ == "__main__":
                 resumen += f"🔹 *{tienda}* - {producto}: {p_texto}\n"
         
         resumen += "\n✅ _Pipeline finalizado con éxito_"
-        enviar_telegram(resumen)
+        enviar_telegram(resumen)    
