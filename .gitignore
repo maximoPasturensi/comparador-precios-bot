@@ -10,7 +10,5 @@ __pycache__/
 
 # Datos y Configuración Sensible (LO QUE REALMENTE DEBE ESTAR OCULTO)
 .env
-*.csv
-data/
 
 # NOTA: NO PONGAS .github/workflows/ acá, eso es para el repositorio público. En este repositorio privado, los workflows pueden estar visibles.
