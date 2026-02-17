@@ -31,10 +31,10 @@ if __name__ == "__main__":
 
     # Inicializamos los bots (headless=False para ver qué pasa con Pigmento)
     bots = {
-        "Farmacity": FarmacityScraper(headless=False),
-        "Pigmento": PigmentoScraper(headless=False),
-        "Simplicity": SimplicityScraper(headless=False),
-        "GetTheLook": GetTheLookScraper(headless=False)
+        "Farmacity": FarmacityScraper(headless=True),
+        "Pigmento": PigmentoScraper(headless=True),
+        "Simplicity": SimplicityScraper(headless=True),
+        "GetTheLook": GetTheLookScraper(headless=True)
     }
 
     for prod_id, urls in config.items():
