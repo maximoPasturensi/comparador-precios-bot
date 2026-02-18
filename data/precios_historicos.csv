@@ -3,3 +3,11 @@ fecha,producto,tienda,precio
 2026-02-17,protector_loreal_50ml,Pigmento,0
 2026-02-17,protector_loreal_50ml,Simplicity,0
 2026-02-17,protector_loreal_50ml,GetTheLook,0
+2026-02-18,protector_loreal_50ml,Farmacity,16445
+2026-02-18,protector_loreal_50ml,Pigmento,18144
+2026-02-18,protector_loreal_50ml,Simplicity,16445
+2026-02-18,protector_loreal_50ml,GetTheLook,16445
+2026-02-18,Farmacity,protector_loreal_50ml,16445
+2026-02-18,Pigmento,protector_loreal_50ml,18144
+2026-02-18,Simplicity,protector_loreal_50ml,16445
+2026-02-18,GetTheLook,protector_loreal_50ml,16445
